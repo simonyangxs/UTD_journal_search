@@ -814,7 +814,7 @@ def main():
             )
     
     # 第二行：时间范围
-    st.header("📅 Date Range")
+    st.header("🗓️ Date Range")
     current_year = datetime.now().year
     
     col1, col2, col3, col4 = st.columns(4)
@@ -896,9 +896,9 @@ def main():
             
             if all_urls:
                  # 显示生成的URLs和批量操作按钮
-                 header_col1, header_col2, header_col3,_ = st.columns([1.25, 0.6, 0.6,2])
+                 header_col1, header_col2, header_col3,_ = st.columns([.9, 0.6, 0.6,2])
                  with header_col1:
-                     st.header("📋 Generated Search Links")
+                     st.header("📋 Search Links")
                  
                  with header_col2:
                      # 全部复制按钮
