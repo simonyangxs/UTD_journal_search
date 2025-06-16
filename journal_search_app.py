@@ -7,7 +7,7 @@ import time
 # streamlit run journal_search_app.py
 # 设置页面配置
 st.set_page_config(
-    page_title="📚 UTD Journal Search Tool",
+    page_title="UTD Journal Search Tool",
     page_icon="📚",
     layout="wide",
     initial_sidebar_state="expanded"
