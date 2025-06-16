@@ -832,7 +832,7 @@ def main():
         start_month = st.selectbox(
             "Start Month",
             options=list(range(1, 13)),
-            format_func=lambda x: f"Month {x}",
+            format_func=lambda x: f"{x}",
             index=0
         )
     
@@ -850,7 +850,7 @@ def main():
         end_month = st.selectbox(
             "End Month",
             options=list(range(1, 13)),
-            format_func=lambda x: f"Month {x}",
+            format_func=lambda x: f"{x}",
             index=11
         )
     

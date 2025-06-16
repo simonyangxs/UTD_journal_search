@@ -1,3 +1,8 @@
+# 📚 UTD Journal Search Tool
+
+## 🌐 Live Demo
+**Try the tool online:** [https://utdjournalsearch.streamlit.app/](https://utdjournalsearch.streamlit.app/)
+
 ## 📖 User Guide
 
 ### 🚀 Quick Start
