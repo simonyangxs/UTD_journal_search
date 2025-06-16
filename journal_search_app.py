@@ -7,7 +7,7 @@ import time
 # streamlit run journal_search_app.py
 # 设置页面配置
 st.set_page_config(
-    page_title="📚 UTD 期刊搜索工具",
+    page_title="📚 UTD Journal Search Tool",
     page_icon="📚",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -711,25 +711,24 @@ def get_compatible_fields(selected_journals):
 
 # 主页面
 def main():
-    st.title("📚 UTD 期刊搜索工具")
-    st.markdown("---")
+    st.title("📚 UTD Journal Search Tool")
     
     # 侧边栏 - 期刊选择
-    st.sidebar.header("📋 期刊选择")
+    st.sidebar.header("📋 Journal Selection")
     
     # 按领域分组期刊
     journal_groups = {
-        "Operations Management + Information System": [
+        "Operations Management": [
             "Management Science (MS)",
             "Manufacturing & Service Operations Management (MSOM)", 
-            "Production and Operations Management (POMS)",
-            "Information Systems Research (ISR)",
-            "MIS Quarterly (MISQ)"
+            "Production and Operations Management (POMS)"
         ],
-        "Finance + Accounting": [
+        "Finance": [
             "Journal of Finance (JF)",
             "Review of Financial Studies (RFS)",
             "Journal of Financial Economics (JFE)",
+        ],
+        "Accounting": [
             "Journal of Accounting Research (JAR)",
             "Journal of Accounting and Economics (JAE)",
             "The Accounting Review (AR)"
@@ -741,6 +740,10 @@ def main():
             "Journal of International Economics (JIE)",
             "Review of Economic Studies (RES)"
         ],
+        "Information System": [
+            "Information Systems Research (ISR)",
+            "MIS Quarterly (MISQ)"
+        ],
         "Management": [
             "Organization Science (OS)",
             "Strategic Management Journal (SMJ)",
@@ -751,8 +754,8 @@ def main():
     
     # 全选/清空按钮
     col1, col2 = st.sidebar.columns(2)
-    select_all = col1.button("✅ 全选", key="select_all")
-    clear_all = col2.button("❌ 清空", key="clear_all")
+    select_all = col1.button("✅ Select All", key="select_all")
+    clear_all = col2.button("❌ Clear All", key="clear_all")
     
     # 初始化会话状态
     if 'selected_journals' not in st.session_state:
@@ -782,15 +785,15 @@ def main():
     st.session_state.selected_journals = selected_journals
     
     # 主区域 - 搜索设置
-    st.header("🔍 搜索设置")
+    st.header("🔍 Search Settings")
     
     # 第一行：搜索关键词和搜索字段
     col1, col2 = st.columns([3, 1])
     with col1:
         # 搜索关键词
         search_term = st.text_area(
-            "搜索关键词",
-            placeholder="输入搜索关键词...",
+            "Search Keywords",
+            placeholder="Enter search keywords...",
             height=80
         )
     
@@ -799,26 +802,26 @@ def main():
         if selected_journals:
             compatible_fields = get_compatible_fields(selected_journals)
             search_field = st.selectbox(
-                "搜索字段",
+                "Search Field",
                 options=compatible_fields,
                 index=0 if compatible_fields else 0
             )
         else:
             search_field = st.selectbox(
-                "搜索字段",
+                "Search Field",
                 options=["AllField", "Title", "Abstract"],
                 index=0
             )
     
     # 第二行：时间范围
-    st.header("📅 时间范围")
+    st.header("📅 Date Range")
     current_year = datetime.now().year
     
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         # 起始年份
         start_year = st.number_input(
-            "起始年份",
+            "Start Year",
             min_value=1900,
             max_value=current_year + 10,
             value=current_year - 5
@@ -827,16 +830,16 @@ def main():
     with col2:
         # 起始月份
         start_month = st.selectbox(
-            "起始月份",
+            "Start Month",
             options=list(range(1, 13)),
-            format_func=lambda x: f"{x}月",
+            format_func=lambda x: f"Month {x}",
             index=0
         )
     
     with col3:
         # 结束年份
         end_year = st.number_input(
-            "结束年份",
+            "End Year",
             min_value=1900,
             max_value=current_year + 10,
             value=current_year
@@ -845,31 +848,25 @@ def main():
     with col4:
         # 结束月份
         end_month = st.selectbox(
-            "结束月份",
+            "End Month",
             options=list(range(1, 13)),
-            format_func=lambda x: f"{x}月",
+            format_func=lambda x: f"Month {x}",
             index=11
         )
     
     # 显示已选择的期刊
     if selected_journals:
-        st.info(f"已选择 {len(selected_journals)} 个期刊: {', '.join([j.split(' (')[0] for j in selected_journals])}")
+        st.info(f"Selected {len(selected_journals)} journals: {', '.join([j.split(' (')[0] for j in selected_journals])}")
     else:
-        st.warning("请至少选择一个期刊")
-    
-    st.markdown("---")
+        st.warning("Please select at least one journal")
     
     # 搜索按钮
-    if st.button("🔍 生成搜索链接", type="primary", disabled=not selected_journals or not search_term):
+    if st.button("🔍 Generate Search Links", type="primary", disabled=not selected_journals or not search_term):
         if not selected_journals:
-            st.error("⚠️ 请至少勾选一个期刊！")
+            st.error("⚠️ Please select at least one journal!")
         elif not search_term.strip():
-            st.error("⚠️ 请输入搜索关键词！")
+            st.error("⚠️ Please enter search keywords!")
         else:
-            # 显示搜索信息
-            date_info = f"{start_year}年{start_month}月 至 {end_year}年{end_month}月"
-            st.success(f"🚀 开始为 {len(selected_journals)} 个期刊生成搜索URL")
-            st.info(f"📅 时间范围: {date_info}")
             
             # 按网站分组期刊
             website_groups = group_journals_by_website(selected_journals)
@@ -878,7 +875,7 @@ def main():
             all_urls = []
             
             for website, journals in website_groups.items():
-                st.write(f"**📡 处理网站: {website}**")
+                # st.write(f"**📡 处理网站: {website}**")
                 
                 # 统一使用合并搜索逻辑
                 combined_url = generate_combined_search_url(
@@ -894,52 +891,147 @@ def main():
                     else:
                         # 多个期刊显示
                         journal_names = ", ".join([j.split(' (')[0] for j in journals])
-                        urls_info.append(f"**🔗 合并搜索 ({journal_names}):**\n{combined_url}")
+                        urls_info.append(f"**🔗 Combined Search ({journal_names}):**\n{combined_url}")
                     all_urls.append(combined_url)
             
             if all_urls:
-                 st.success(f"✅ 生成了 {len(all_urls)} 个搜索URL！")
+                 # 显示生成的URLs和批量操作按钮
+                 header_col1, header_col2, header_col3,_ = st.columns([1.25, 0.6, 0.6,2])
+                 with header_col1:
+                     st.header("📋 Generated Search Links")
                  
-                 # 显示生成的URLs
-                 st.header("📋 生成的搜索链接")
+                 with header_col2:
+                     # 全部复制按钮
+                     all_urls_text = '\\n\\n'.join([f"{urls_info[i].split(chr(10))[0].replace('**🔗 ', '').replace(':**', '')}:\\n{url}" for i, url in enumerate(all_urls)])
+                     copy_all_js = f"""
+                     <script>
+                     function copyAllToClipboard() {{
+                         var allUrlsText = `{all_urls_text}`;
+                         navigator.clipboard.writeText(allUrlsText);
+                     }}
+                     </script>
+                     <button onclick="copyAllToClipboard()" style="
+                         background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+                         border: none;
+                         color: white;
+                         padding: 8px 16px;
+                         text-align: center;
+                         text-decoration: none;
+                         display: inline-block;
+                         font-size: 14px;
+                         margin: 4px 2px;
+                         cursor: pointer;
+                         border-radius: 8px;
+                         font-weight: 500;
+                         box-shadow: 0 2px 4px rgba(79, 172, 254, 0.2);
+                         transition: all 0.3s ease;
+                         text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+                     " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(79, 172, 254, 0.3)'" 
+                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(79, 172, 254, 0.2)'">📋 Copy All</button>
+                     """
+                     components.html(copy_all_js, height=50)
+                 
+                 with header_col3:
+                     # 全部打开按钮
+                     open_all_js = f"""
+                     <script>
+                     function openAllLinks() {{
+                         var urls = {str(all_urls).replace("'", '"')};
+                         var delay = 500; // 每个页面间隔500毫秒打开
+                         
+                         urls.forEach(function(url, index) {{
+                             setTimeout(function() {{
+                                 window.open(url, '_blank');
+                             }}, index * delay);
+                         }});
+                     }}
+                     </script>
+                     <button onclick="openAllLinks()" style="
+                         background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+                         border: none;
+                         color: white;
+                         padding: 8px 16px;
+                         text-align: center;
+                         text-decoration: none;
+                         display: inline-block;
+                         font-size: 14px;
+                         margin: 4px 2px;
+                         cursor: pointer;
+                         border-radius: 8px;
+                         font-weight: 500;
+                         box-shadow: 0 2px 4px rgba(250, 112, 154, 0.2);
+                         transition: all 0.3s ease;
+                         text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+                     " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(250, 112, 154, 0.3)'" 
+                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(250, 112, 154, 0.2)'">🚀 Open All</button>
+                     """
+                     components.html(open_all_js, height=50)
+                 
+                 # 显示每个搜索链接及其操作按钮
                  for i, url_info in enumerate(urls_info):
-                     with st.expander(f"搜索链接 {i+1}", expanded=True):
-                         lines = url_info.split('\n')
-                         st.markdown(lines[0])
+                     # 从url_info中提取期刊名称作为标题
+                     lines = url_info.split('\n')
+                     title_line = lines[0].replace('**🔗 ', '').replace(':**', '')
+                     
+                     with st.expander(f"🔗 {title_line}", expanded=True):
                          if len(lines) > 1:
                              st.code(lines[1], language='text')
-                 
-                 # 自动打开所有搜索页面
-                 st.info("🚀 正在自动打开所有搜索页面...")
-                 
-                 # 生成JavaScript代码来打开所有链接
-                 js_code = """
-                 <script>
-                 // 等待页面加载完成
-                 window.onload = function() {
-                     var urls = %s;
-                     var delay = 500; // 每个页面间隔500毫秒打开
-                     
-                     urls.forEach(function(url, index) {
-                         setTimeout(function() {
-                             window.open(url, '_blank');
-                         }, index * delay);
-                     });
-                 };
-                 </script>
-                 """ % str(all_urls).replace("'", '"')
-                 
-                 # 执行JavaScript
-                 components.html(js_code, height=0)
-                 
-                 # 一键复制所有链接
-                 all_urls_text = "\n\n".join([url_info.replace('**', '').replace('🔗 ', '') for url_info in urls_info])
-                 if st.button("📋 复制所有链接"):
-                     st.code(all_urls_text, language='text')
-                     st.info("链接已显示在上方代码框中，请手动复制")
-                    
+                             
+                             # 为每个链接添加操作按钮
+                             col1, col2, col3 = st.columns([1, 1, 4])
+                             with col1:
+                                 # 复制链接按钮
+                                 copy_js = f"""
+                                 <script>
+                                 function copyToClipboard{i}() {{
+                                     navigator.clipboard.writeText('{all_urls[i]}');
+                                 }}
+                                 </script>
+                                 <button onclick="copyToClipboard{i}()" style="
+                                     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                     border: none;
+                                     color: white;
+                                     padding: 8px 16px;
+                                     text-align: center;
+                                     text-decoration: none;
+                                     display: inline-block;
+                                     font-size: 14px;
+                                     margin: 4px 2px;
+                                     cursor: pointer;
+                                     border-radius: 8px;
+                                     font-weight: 500;
+                                     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                     transition: all 0.3s ease;
+                                 " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" 
+                                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">📋 Copy</button>
+                                 """
+                                 components.html(copy_js, height=50)
+                             
+                             with col2:
+                                 # 打开链接按钮
+                                 open_js = f"""
+                                 <button onclick="window.open('{all_urls[i]}', '_blank')" style="
+                                     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                                     border: none;
+                                     color: white;
+                                     padding: 8px 16px;
+                                     text-align: center;
+                                     text-decoration: none;
+                                     display: inline-block;
+                                     font-size: 14px;
+                                     margin: 4px 2px;
+                                     cursor: pointer;
+                                     border-radius: 8px;
+                                     font-weight: 500;
+                                     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                     transition: all 0.3s ease;
+                                 " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" 
+                                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">🔗 Open</button>
+                                 """
+                                 components.html(open_js, height=50)
+
             else:
-                st.error("❌ URL生成失败！")
+                st.error("❌ Failed to generate URLs!")
 
 if __name__ == "__main__":
     main()

@@ -1,60 +1,64 @@
-## 📖 使用说明
+## 📖 User Guide
 
-### 🚀 快速开始
-1. **勾选期刊**: 在期刊列表中勾选您要搜索的期刊（支持多选）
-2. **查看选择**: 已选择的期刊会显示在"已选择期刊"文本框中
-3. **输入搜索关键词**: 在文本框中输入您的搜索关键词
-4. **选择搜索字段**: 选择在标题、摘要还是全文中搜索
-5. **设置时间范围**: 如果期刊支持，可以设置起始和结束年份
-6. **开始搜索**: 点击搜索按钮，系统会智能合并同网站期刊并打开搜索页面
+### 🚀 Quick Start
+1. **Select Journals**: Check the journals you want to search in the journal list (supports multiple selections)
+2. **Review Selection**: Selected journals will be displayed in the "Selected Journals" text box
+3. **Enter Search Keywords**: Input your search keywords in the text box
+4. **Choose Search Field**: Select whether to search in title, abstract, or full text
+5. **Set Date Range**: If supported by the journal, you can set start and end years
+6. **Start Search**: Click the search button, the system will intelligently merge journals from the same website and open search pages
 
-### ✅ 期刊选择功能
+### ✅ Journal Selection Features
 
-**复选框选择**:
-- 期刊按领域分组显示（运营管理+信息系统、经济学、金融+会计、管理学）
-- 直接勾选复选框即可选择期刊
-- 支持跨领域多选
+**Checkbox Selection**:
+- Journals are grouped by field (Operations Management + Information Systems, Economics, Finance + Accounting, Management)
+- Simply check the checkbox to select journals
+- Supports cross-field multiple selections
 
-**便捷操作**:
-- **全选按钮**: 一键选择所有期刊
-- **清空按钮**: 一键清空所有选择
-- **实时显示**: 已选择期刊实时显示在选择框中
+**Convenient Operations**:
+- **Select All Button**: Select all journals with one click
+- **Clear All Button**: Clear all selections with one click
+- **Real-time Display**: Selected journals are displayed in real-time in the selection box
 
 
-### 📚 期刊详细信息
+### 📚 Journal Details
 
-#### 🔧 运营管理 + 信息系统 (Operations Management + Information Systems)
-| 期刊名称 | 简称 | 网站 | 支持字段筛选 | 支持时间筛选 |
-|----------|------|------|-------------|-------------|
-| Management Science | MS | INFORMS | 标题/全文 | ✅ |
-| Manufacturing & Service Operations Management | MSOM | INFORMS | 标题/全文 | ✅ |
-| Production and Operations Management | POMS | Sage | 标题/摘要/全文 | ✅ |
-| Information Systems Research | ISR | INFORMS | 标题/全文 | ✅ |
-| MIS Quarterly | MISQ | MISQ | 标题/摘要 | ✅ |
+#### 🔧 Operations Management + Information Systems
+| Journal Name | Abbreviation | Website | Field Filtering | Date Filtering |
+|--------------|--------------|---------|----------------|----------------|
+| Management Science | MS | INFORMS | Title/All Fields | ✅ |
+| Manufacturing & Service Operations Management | MSOM | INFORMS | Title/All Fields | ✅ |
+| Production and Operations Management | POMS | Sage | Title/Abstract/All Fields | ✅ |
+| Information Systems Research | ISR | INFORMS | Title/All Fields | ✅ |
+| MIS Quarterly | MISQ | MISQ | Title/Abstract | ✅ |
 
-#### 📊 经济学 (Economics)
-| 期刊名称 | 简称 | 网站 | 支持字段筛选 | 支持时间筛选 |
-|----------|------|------|-------------|-------------|
-| American Economic Review | AER | AEA | 标题/摘要 | ❌ |
-| Quarterly Journal of Economics | QJE | Oxford | 标题/摘要/全文 | ✅ |
-| Journal of Political Economy | JPE | Chicago | 标题/全文 | ✅ |
-| Journal of International Economics | JIE | ScienceDirect | 标题/全文 | ✅ |
-| Review of Economic Studies | RES | Oxford | 标题/摘要/全文 | ✅ |
+#### 📊 Economics
+| Journal Name | Abbreviation | Website | Field Filtering | Date Filtering |
+|--------------|--------------|---------|----------------|----------------|
+| American Economic Review | AER | AEA | Title/Abstract | ❌ |
+| Quarterly Journal of Economics | QJE | Oxford | Title/Abstract/All Fields | ✅ |
+| Journal of Political Economy | JPE | Chicago | Title/All Fields | ✅ |
+| Journal of International Economics | JIE | ScienceDirect | Title/All Fields | ✅ |
+| Review of Economic Studies | RES | Oxford | Title/Abstract/All Fields | ✅ |
 
-#### 💰 金融 + 会计 (Finance + Accounting)
-| 期刊名称 | 简称 | 网站 | 支持字段筛选 | 支持时间筛选 |
-|----------|------|------|-------------|-------------|
-| Journal of Finance | JF | Wiley | 标题/摘要/全文 | ✅ |
-| Review of Financial Studies | RFS | Oxford | 标题/摘要/全文 | ✅ |
-| Journal of Financial Economics | JFE | ScienceDirect | 标题/全文 | ✅ |
-| Journal of Accounting Research | JAR | Wiley | 标题/摘要/全文 | ✅ |
-| Journal of Accounting and Economics | JAE | ScienceDirect | 标题/全文 | ✅ |
-| The Accounting Review | AR | AAA | 标题/摘要/全文 | ✅ |
+#### 💰 Finance + Accounting
+| Journal Name | Abbreviation | Website | Field Filtering | Date Filtering |
+|--------------|--------------|---------|----------------|----------------|
+| Journal of Finance | JF | Wiley | Title/Abstract/All Fields | ✅ |
+| Review of Financial Studies | RFS | Oxford | Title/Abstract/All Fields | ✅ |
+| Journal of Financial Economics | JFE | ScienceDirect | Title/All Fields | ✅ |
+| Journal of Accounting Research | JAR | Wiley | Title/Abstract/All Fields | ✅ |
+| Journal of Accounting and Economics | JAE | ScienceDirect | Title/All Fields | ✅ |
+| The Accounting Review | AR | AAA | Title/Abstract/All Fields | ✅ |
 
-#### 🏢 管理学 (Management)
-| 期刊名称 | 简称 | 网站 | 支持字段筛选 | 支持时间筛选 |
-|----------|------|------|-------------|-------------|
-| Organization Science | OS | INFORMS | 标题/全文 | ✅ |
-| Strategic Management Journal | SMJ | Wiley | 标题/摘要/全文 | ✅ |
-| Administrative Science Quarterly | ASQ | Sage | 标题/摘要/全文 | ✅ |
-| Academy of Management Journal | AMJ | AOM | 标题/摘要/全文 | ✅ |
+#### 🏢 Management
+| Journal Name | Abbreviation | Website | Field Filtering | Date Filtering |
+|--------------|--------------|---------|----------------|----------------|
+| Organization Science | OS | INFORMS | Title/All Fields | ✅ |
+| Strategic Management Journal | SMJ | Wiley | Title/Abstract/All Fields | ✅ |
+| Administrative Science Quarterly | ASQ | Sage | Title/Abstract/All Fields | ✅ |
+| Academy of Management Journal | AMJ | AOM | Title/Abstract/All Fields | ✅ |
+
+## Comparison with Similar Products:
+- [econ-paper-search](https://econ-paper-search.streamlit.app/): Mainly focuses on econ papers, cannot guarantee real-time article updates
+- [gotostudies](https://www.gotostudies.com/): Uses Google Scholar search, but has lower accuracy and completeness in journal coverage
