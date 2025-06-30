@@ -7,11 +7,118 @@ import time
 # streamlit run journal_search_app.py
 # 设置页面配置
 st.set_page_config(
-    page_title="UTD Journal Search Tool",
+    page_title="Business Journal Search Tool",
     page_icon="📚",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+
+UTD_24_JOURNALS = [
+    # OM
+    "Journal of Operations Management (JOM)",
+    "Manufacturing & Service Operations Management (MSOM)",
+    "Operations Research (OR)",
+    "Production and Operations Management (POMS)",
+    "Organization Science (OS)",
+    
+    # Finance
+    "Journal of Finance (JF)",
+    "Journal of Financial Economics (JFE)",
+    "Review of Financial Studies (RFS)",
+    
+    # Accounting
+    "The Accounting Review (AR)",
+    "Journal of Accounting and Economics (JAE)",
+    "Journal of Accounting Research (JAR)",
+    "Journal of International Business Studies (JIBS)",
+    
+    # Management
+    "Academy of Management Journal (AMJ)",
+    "Academy of Management Review (AMR)",
+    "Administrative Science Quarterly (ASQ)",
+    "Management Science (MS)",
+    "Strategic Management Journal (SMJ)",
+    
+    # Marketing
+    "Journal of Consumer Research (JCR)",
+    "Journal of Marketing (JM)",
+    "Journal of Marketing Research (JMR)",
+    "Marketing Science (MS)",
+    
+    # Information Systems
+    "Information Systems Research (ISR)",
+    "MIS Quarterly (MISQ)",
+    "Journal on Computing (JC)"
+
+]
+
+# 定义FT50期刊列表 (从当前可用期刊中选择)
+FT50_JOURNALS = [
+    # Economics
+    "American Economic Review (AER)",
+    "Econometrica",
+    "Journal of Political Economy (JPE)", 
+    "Quarterly Journal of Economics (QJE)",
+    "Review of Economic Studies (RES)",
+    "Journal of International Economics (JIE)",
+    
+    # Finance
+    "Journal of Finance (JF)",
+    "Journal of Financial Economics (JFE)",
+    "Journal of Financial and Quantitative Analysis (JFQA)",
+    "Review of Financial Studies (RFS)",
+    "Review of Finance (RF)",
+    
+    # Accounting
+    "The Accounting Review (AR)",
+    "Accounting, Organizations and Society (AOS)",
+    "Contemporary Accounting Research (CAR)",
+    "Journal of Accounting and Economics (JAE)",
+    "Journal of Accounting Research (JAR)",
+    "Review of Accounting Studies (RAS)",
+    
+    # Management
+    "Academy of Management Journal (AMJ)",
+    "Academy of Management Review (AMR)",
+    "Administrative Science Quarterly (ASQ)",
+    "Journal of Management (JM)",
+    "Journal of Management Studies (JMS)",
+    "Management Science (MS)",
+    "Organization Science (OS)",
+    "Strategic Management Journal (SMJ)",
+    "Human Relations (HR)",
+    "Human Resource Management (HRM)",
+    "Entrepreneurship Theory and Practice (ETP)",
+    "Journal of Business Venturing (JBV)",
+    "Journal of Business Ethics (JBE)",
+    "Strategic Entrepreneurship Journal (SEJ)",
+    
+    # Marketing
+    "Journal of Consumer Research (JCR)",
+    "Journal of Marketing (JM)",
+    "Journal of Marketing Research (JMR)",
+    "Marketing Science (MS)",
+    "Journal of Consumer Psychology (JCP)",
+    "Journal of the Academy of Marketing Science (JAMS)",
+    
+    # Information Systems
+    "Information Systems Research (ISR)",
+    "MIS Quarterly (MISQ)",
+    "Journal of Management Information Systems (JMIS)",
+    
+    # Operations
+    "Journal of Operations Management (JOM)",
+    "Manufacturing & Service Operations Management (MSOM)",
+    "Operations Research (OR)",
+    "Production and Operations Management (POMS)",
+    
+    # Others
+    "Journal of International Business Studies (JIBS)",
+    "Research Policy (RP)",
+    "Organization Studies (OS)",
+    "Organizational Behavior and Human Decision Processes (OBHDP)"
+]
 
 # 定义期刊搜索链接配置
 JOURNAL_CONFIGS = {
@@ -28,10 +135,9 @@ JOURNAL_CONFIGS = {
             "AfterMonth": "",
             "AfterYear": ""
         },
-        "search_fields": ["AllField", "Title"],
+        "search_fields": ["AllField", "Title", "Abstract"],
         "supports_date": True
     },
-    
     "Manufacturing & Service Operations Management (MSOM)": {
         "base_url": "https://pubsonline.informs.org/action/doSearch",
         "params": {
@@ -44,10 +150,9 @@ JOURNAL_CONFIGS = {
             "AfterMonth": "",
             "AfterYear": ""
         },
-        "search_fields": ["AllField", "Title"],
+        "search_fields": ["AllField", "Title", "Abstract"],
         "supports_date": True
     },
-    
     "Information Systems Research (ISR)": {
         "base_url": "https://pubsonline.informs.org/action/doSearch",
         "params": {
@@ -60,10 +165,9 @@ JOURNAL_CONFIGS = {
             "AfterMonth": "",
             "AfterYear": ""
         },
-        "search_fields": ["AllField", "Title"],
+        "search_fields": ["AllField", "Title", "Abstract"],
         "supports_date": True
     },
-    
     "Organization Science (OS)": {
         "base_url": "https://pubsonline.informs.org/action/doSearch",
         "params": {
@@ -76,47 +180,145 @@ JOURNAL_CONFIGS = {
             "AfterMonth": "",
             "AfterYear": ""
         },
-        "search_fields": ["AllField", "Title"],
+        "search_fields": ["AllField", "Title", "Abstract"],
         "supports_date": True
     },
-    
+    "Marketing Science (MS)": {
+        "base_url": "https://pubsonline.informs.org/action/doSearch",
+        "params": {
+            "field1": "AllField",
+            "text1": "",
+            "publication[]": ["mksc"],
+            "publication": "",
+            "BeforeYear": "",
+            "BeforeMonth": "",
+            "AfterMonth": "",
+            "AfterYear": ""
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    },
+    "Operations Research (OR)": {
+        "base_url": "https://pubsonline.informs.org/action/doSearch",
+        "params": {
+            "field1": "AllField",
+            "text1": "",
+            "publication[]": ["opre"],
+            "publication": "",
+            "BeforeYear": "",
+            "BeforeMonth": "",
+            "AfterMonth": "",
+            "AfterYear": ""
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    },
+    "Journal on Computing (JC)": {
+        "base_url": "https://pubsonline.informs.org/action/doSearch",
+        "params": {
+            "field1": "AllField",
+            "text1": "",
+            "publication[]": ["ijoc"],
+            "publication": "",
+            "BeforeYear": "",
+            "BeforeMonth": "",
+            "AfterMonth": "",
+            "AfterYear": ""
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    },
+
     # ScienceDirect 期刊
     "Journal of International Economics (JIE)": {
         "base_url": "https://www.sciencedirect.com/search",
         "params": {
             "qs": "",
             "title": "",
+            "tak":"",
             "publicationTitles": "271695",
             "lastSelectedFacet": "years",
             "years": ""
         },
-        "search_fields": ["Title", "AllField"],
+        "search_fields": ["Title", "AllField", "Abstract"],
         "supports_date": True
     },
-    
     "Journal of Accounting and Economics (JAE)": {
         "base_url": "https://www.sciencedirect.com/search",
         "params": {
             "qs": "",
             "title": "",
+            "tak":"",
             "publicationTitles": "271671",
             "lastSelectedFacet": "years",
             "years": ""
         },
-        "search_fields": ["Title", "AllField"],
+        "search_fields": ["Title", "AllField", "Abstract"],
         "supports_date": True
     },
-    
     "Journal of Financial Economics (JFE)": {
         "base_url": "https://www.sciencedirect.com/search",
         "params": {
             "qs": "",
             "title": "",
+            "tak":"",
             "publicationTitles": "271661",
             "lastSelectedFacet": "years",
             "years": ""
         },
-        "search_fields": ["Title", "AllField"],
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Accounting, Organizations and Society (AOS)": {
+        "base_url": "https://www.sciencedirect.com/search",
+        "params": {
+            "qs": "",
+            "title": "",
+            "tak":"",
+            "publicationTitles": "271665",
+            "lastSelectedFacet": "years",
+            "years": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Journal of Business Venturing (JBV)": {
+        "base_url": "https://www.sciencedirect.com/search",
+        "params": {
+            "qs": "",
+            "title": "",
+            "tak":"",
+            "publicationTitles": "271663",
+            "lastSelectedFacet": "years",
+            "years": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Organizational Behavior and Human Decision Processes (OBHDP)": {
+        "base_url": "https://www.sciencedirect.com/search",
+        "params": {
+            "qs": "",
+            "title": "",
+            "tak":"",
+            "publicationTitles": "272419",
+            "lastSelectedFacet": "years",
+            "years": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Research Policy (RP)": {
+        "base_url": "https://www.sciencedirect.com/search",
+        "params": {
+            "qs": "",
+            "title": "",
+            "tak":"",
+            "publicationTitles": "271666",
+            "lastSelectedFacet": "years",
+            "years": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
         "supports_date": True
     },
     
@@ -170,7 +372,6 @@ JOURNAL_CONFIGS = {
         "search_fields": ["AllField", "Title", "Abstract"],
         "supports_date": True
     },
-    
     "Review of Financial Studies (RFS)": {
         "base_url": "https://academic.oup.com/journals/search-results",
         "params": {
@@ -189,12 +390,47 @@ JOURNAL_CONFIGS = {
         "search_fields": ["AllField", "Title", "Abstract"],
         "supports_date": True
     },
-    
     "Review of Economic Studies (RES)": {
         "base_url": "https://academic.oup.com/journals/search-results",
         "params": {
             "allJournals": "1",
             "f_JournalID": "3369",
+            "fl_SiteID": "5567",
+            "rg_ArticleDate": "",
+            "dateFilterType": "",
+            "noDateTypes": "",
+            "rg_AllPublicationDates": "",
+            "rg_VersionDate": "",
+            "cqb": "",
+            "qb": "",
+            "page": "1"
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    },
+    "Journal of Consumer Research (JCR)": {
+        "base_url": "https://academic.oup.com/journals/search-results",
+        "params": {
+            "allJournals": "1",
+            "f_JournalID": "3258",
+            "fl_SiteID": "5567",
+            "rg_ArticleDate": "",
+            "dateFilterType": "",
+            "noDateTypes": "",
+            "rg_AllPublicationDates": "",
+            "rg_VersionDate": "",
+            "cqb": "",
+            "qb": "",
+            "page": "1"
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    },
+    "Review of Finance (RF)": {
+        "base_url": "https://academic.oup.com/journals/search-results",
+        "params": {
+            "allJournals": "1",
+            "f_JournalID": "3371",
             "fl_SiteID": "5567",
             "rg_ArticleDate": "",
             "dateFilterType": "",
@@ -226,7 +462,6 @@ JOURNAL_CONFIGS = {
         "search_fields": ["Title", "AllField", "Abstract"],
         "supports_date": True
     },
-    
     "Journal of Accounting Research (JAR)": {
         "base_url": "https://onlinelibrary.wiley.com/action/doSearch",
         "params": {
@@ -243,13 +478,124 @@ JOURNAL_CONFIGS = {
         "search_fields": ["Title", "AllField", "Abstract"],
         "supports_date": True
     },
-    
     "Strategic Management Journal (SMJ)": {
         "base_url": "https://onlinelibrary.wiley.com/action/doSearch",
         "params": {
             "field1": "Title",
             "text1": "",
             "publication[]": ["10970266"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Contemporary Accounting Research (CAR)": {
+        "base_url": "https://onlinelibrary.wiley.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["19113846"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Journal of Consumer Psychology (JCP)": {
+        "base_url": "https://onlinelibrary.wiley.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["15327663"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Journal of Management Studies (JMS)": {
+        "base_url": "https://onlinelibrary.wiley.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["14676486"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Econometrica": {
+        "base_url": "https://onlinelibrary.wiley.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["14680262"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Human Resource Management (HRM)": {
+        "base_url": "https://onlinelibrary.wiley.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["1099050x"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Strategic Entrepreneurship Journal (SEJ)": {
+        "base_url": "https://onlinelibrary.wiley.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["1932443x"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Journal of Operations Management (JOM)": {
+        "base_url": "https://onlinelibrary.wiley.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["18731317"],
             "publication": "",
             "Ppub": "",
             "AfterMonth": "",
@@ -297,13 +643,114 @@ JOURNAL_CONFIGS = {
         "search_fields": ["AllField", "Title", "Abstract"],
         "supports_date": True
     },
-    
+    "Entrepreneurship Theory and Practice (ETP)": {
+        "base_url": "https://journals.sagepub.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["etpb"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": "",
+            "access": ""
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    },
+    "Human Relations (HR)": {
+        "base_url": "https://journals.sagepub.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["huma"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": "",
+            "access": ""
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    },
+    "Journal of Management (JM)": {
+        "base_url": "https://journals.sagepub.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["joma"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": "",
+            "access": ""
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    }, 
+    "Organization Studies (OS)": {
+        "base_url": "https://journals.sagepub.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["ossa"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": "",
+            "access": ""
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    }, 
     "Production and Operations Management (POMS)": {
         "base_url": "https://journals.sagepub.com/action/doSearch",
         "params": {
             "field1": "Title",
             "text1": "",
             "publication[]": ["paoa"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": "",
+            "access": ""
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    },
+    "Journal of Marketing (JM)": {
+        "base_url": "https://journals.sagepub.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["jmxa"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": "",
+            "access": ""
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    }, 
+    "Journal of Marketing Research (JMR)": {
+        "base_url": "https://journals.sagepub.com/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["mrj"],
             "publication": "",
             "Ppub": "",
             "AfterMonth": "",
@@ -337,6 +784,104 @@ JOURNAL_CONFIGS = {
         }
     },
     
+    # springer： 搜索出来的journal合并使用 OR 即可
+    "Journal of International Business Studies (JIBS)": {
+            "base_url": "https://link.springer.com/search",
+            "params": {
+                "new-search": "true",
+                "advancedSearch": "true", 
+                "sortBy": "relevance",
+                "query": "",
+                "title": "",
+                "contributor": "",
+                "journal": "Journal of International Business Studies",
+                "date": "custom",
+                "dateFrom": "",
+                "dateTo": ""
+            },
+            "search_fields": ["AllField", "Title"],
+            "supports_date": True
+    },
+    "Journal of Business Ethics (JBE)": {
+        "base_url": "https://link.springer.com/search",
+        "params": {
+            "new-search": "true",
+            "advancedSearch": "true", 
+            "sortBy": "relevance",
+            "query": "",
+            "title": "",
+            "contributor": "",
+            "journal": "Journal of Business Ethics",
+            "date": "custom",
+            "dateFrom": "",
+            "dateTo": ""
+        },
+        "search_fields": ["AllField", "Title"],
+        "supports_date": True
+    },
+    "Review of Accounting Studies (RAS)": {
+        "base_url": "https://link.springer.com/search",
+        "params": {
+            "new-search": "true",
+            "advancedSearch": "true", 
+            "sortBy": "relevance",
+            "query": "",
+            "title": "",
+            "contributor": "",
+            "journal": "Review of Accounting Studies",
+            "date": "custom",
+            "dateFrom": "",
+            "dateTo": ""
+        },
+        "search_fields": ["AllField", "Title"],
+        "supports_date": True
+    },
+    "Journal of the Academy of Marketing Science (JAMS)": {
+        "base_url": "https://link.springer.com/search",
+        "params": {
+            "new-search": "true",
+            "advancedSearch": "true", 
+            "sortBy": "relevance",
+            "query": "",
+            "title": "",
+            "contributor": "",
+            "journal": "Journal of the Academy of Marketing Science",
+            "date": "custom",
+            "dateFrom": "",
+            "dateTo": ""
+        },
+        "search_fields": ["AllField", "Title"],
+        "supports_date": True
+    },
+
+    #cambridge
+    "Journal of Financial and Quantitative Analysis (JFQA)": {
+        "base_url": "https://www.cambridge.org/core/search",
+        "params": {
+            "q": "",
+            "aggs[productJournal][filters]": "FB35548FF614F4556E96D01FA2CB412E",
+            "filters[dateYearRange][from]": "",
+            "filters[dateYearRange][to]": "",
+            "fts": "", #全文就是yes，title就是no
+        },
+        "search_fields": ['Title'],
+        "supports_date": True
+    },
+
+    # Taylor & Francis
+    "Journal of Management Information Systems (JMIS)": {
+        "base_url": "https://www.tandfonline.com/action/doSearch",
+        "params": {
+            "field1": "",
+            "text1": "",
+            "SeriesKey": "mmis20",
+            "AfterYear": "",
+            "BeforeYear": ""
+        },
+        "search_fields": ["AllField", "Title", "Abstract"],
+        "supports_date": True
+    },
+
     # AOM
     "Academy of Management Journal (AMJ)": {
         "base_url": "https://journals.aom.org/action/doSearch",
@@ -344,6 +889,22 @@ JOURNAL_CONFIGS = {
             "field1": "Title",
             "text1": "",
             "publication[]": ["amj"],
+            "publication": "",
+            "Ppub": "",
+            "AfterMonth": "",
+            "AfterYear": "",
+            "BeforeMonth": "",
+            "BeforeYear": ""
+        },
+        "search_fields": ["Title", "AllField", "Abstract"],
+        "supports_date": True
+    },
+    "Academy of Management Review (AMR)": {
+        "base_url": "https://journals.aom.org/action/doSearch",
+        "params": {
+            "field1": "Title",
+            "text1": "",
+            "publication[]": ["amr"],
             "publication": "",
             "Ppub": "",
             "AfterMonth": "",
@@ -407,6 +968,8 @@ def generate_combined_search_url(journals, search_term, search_field, start_year
         params['text1'] = search_term
         if search_field == "Title":
             params['field1'] = "Title"
+        elif search_field == "Abstract":
+            params['field1'] = "Abstract"
         else:
             params['field1'] = "AllField"
         # 添加日期和月份筛选支持
@@ -434,11 +997,22 @@ def generate_combined_search_url(journals, search_term, search_field, start_year
             # 清空qs参数
             if 'qs' in params:
                 del params['qs']
+            if 'tak' in params:
+                del params['tak']
+        elif search_field == "Abstract":
+            params['tak'] = search_term
+            # 清空title参数
+            if 'title' in params:
+                del params['title']
+            if 'qs' in params:
+                del params['qs']
         else:  
             params['qs'] = search_term
             # 清空title参数
             if 'title' in params:
                 del params['title']
+            if 'tak' in params:
+                del params['tak']
                 
         if start_year and end_year:
             years = ",".join([str(y) for y in range(int(start_year), int(end_year)+1)])
@@ -597,16 +1171,19 @@ def generate_combined_search_url(journals, search_term, search_field, start_year
         config = JOURNAL_CONFIGS[template_journal]
         special_format = config.get("special_format", {})
         
+        # 对搜索词中的引号进行转义
+        escaped_search_term = search_term.replace('"', '\\"').replace("'", "\\'") #.replace("“", "\\“").replace("”", "\\”")
+        
         # 根据搜索字段设置特殊格式的qb参数
         if search_field == "Title":
             field_name = special_format.get("Title", "Title1")
-            params["qb"] = f'{{"{field_name}":"{search_term}"}}'
+            params["qb"] = f'{{"{field_name}":"{escaped_search_term}"}}'
         elif search_field == "Abstract":
             field_name = special_format.get("Abstract", "Abstract1")
-            params["qb"] = f'{{"{field_name}":"{search_term}"}}'
+            params["qb"] = f'{{"{field_name}":"{escaped_search_term}"}}'
         else: 
             field_name = special_format.get("Anywhere", "Abstract1")
-            params["qb"] = f'{{"{field_name}":"{search_term}"}}'
+            params["qb"] = f'{{"{field_name}":"{escaped_search_term}"}}'
         
         # 清空q参数，使用qb参数进行搜索
         if "q" in params:
@@ -633,7 +1210,17 @@ def generate_combined_search_url(journals, search_term, search_field, start_year
             params["rg_PublicationDate"] = date_range
             
     elif 'journals.aom.org' in website:
-        # AOM 期刊 (AMJ) - 支持月份筛选
+        # AOM 期刊 (AMJ/AMR) - 支持月份筛选和多期刊合并
+        if len(journals) > 1:
+            # 多个期刊合并
+            publications = []
+            for journal in journals:
+                if journal in JOURNAL_CONFIGS:
+                    pub_list = JOURNAL_CONFIGS[journal]['params'].get('publication[]', [])
+                    publications.extend(pub_list)
+            params['publication[]'] = publications
+        # 单个期刊直接使用模板配置中的 publication[]
+        
         search_term = search_term.replace(""", '"').replace(""", '"')
         params['text1'] = search_term.replace(" ", "+")
         if search_field == "Title":
@@ -648,7 +1235,68 @@ def generate_combined_search_url(journals, search_term, search_field, start_year
             params['BeforeYear'] = end_year
             params['AfterMonth'] = str(start_month) if start_month else "1"
             params['BeforeMonth'] = str(end_month) if end_month else "12"
-    
+    elif 'cambridge.org' in website:
+        # Cambridge 期刊 - 支持年份筛选
+        params['q'] = search_term
+
+        if search_field == "Title":
+            params['fts'] = "no"
+        else:
+            params['fts'] = "yes"
+        
+        if start_year and end_year:
+            params['filters[dateYearRange][from]'] = str(start_year)
+            params['filters[dateYearRange][to]'] = str(end_year)
+    elif 'link.springer.com' in website:
+        # Springer 期刊 - 多个期刊使用 OR 连接
+        if len(journals) > 1:
+            # 多个期刊合并，使用 OR 连接期刊名称
+            journal_names = []
+            for journal in journals:
+                if journal in JOURNAL_CONFIGS:
+                    journal_name = JOURNAL_CONFIGS[journal]['params'].get('journal', '')
+                    if journal_name:
+                        journal_names.append( "\""+journal_name+"\"")
+            params['journal'] = ' OR '.join(journal_names)
+        # 单个期刊直接使用模板配置中的 journal
+        
+        if search_field == "Title":
+            params['title'] = search_term
+            # 清空 query 参数
+            params['query'] = ""
+        else:  # AllField
+            params['query'] = search_term
+            # 清空 title 参数
+            params['title'] = ""
+            
+        if start_year and end_year:
+            params['dateFrom'] = str(start_year)
+            params['dateTo'] = str(end_year)
+    elif 'tandfonline.com' in website:
+        # Taylor & Francis 期刊 (JMIS) - 支持月份筛选
+        if len(journals) > 1:
+            # 多个期刊合并
+            series_keys = []
+            for journal in journals:
+                if journal in JOURNAL_CONFIGS:
+                    series_key = JOURNAL_CONFIGS[journal]['params'].get('SeriesKey', '')
+                    if series_key:
+                        series_keys.append(series_key)
+            params['SeriesKey'] = ','.join(series_keys)
+        # 单个期刊直接使用模板配置中的 SeriesKey
+        
+        params['text1'] = search_term
+        if search_field == "Title":
+            params['field1'] = "Title"
+        elif search_field == "Abstract":
+            params['field1'] = "Abstract"
+        else:
+            params['field1'] = "AllField"
+            
+        if start_year and end_year:
+            params['AfterYear'] = start_year
+            params['BeforeYear'] = end_year
+
     # 构建最终URL
     url_params = []
     
@@ -711,62 +1359,138 @@ def get_compatible_fields(selected_journals):
 
 # 主页面
 def main():
-    st.title("📚 UTD Journal Search Tool")
+    st.title("📚 Business Journal Search Tool")
     
     # 侧边栏 - 期刊选择
     st.sidebar.header("📋 Journal Selection")
     
     # 按领域分组期刊
+    # https://ceibs.libguides.com/c.php?g=963339&p=7006250
     journal_groups = {
         "Operations Management": [
             "Management Science (MS)",
-            "Manufacturing & Service Operations Management (MSOM)", 
-            "Production and Operations Management (POMS)"
+            "Production and Operations Management (POMS)",
+            "Manufacturing & Service Operations Management (MSOM)",
+            "Operations Research (OR)",
+            "Journal of Operations Management (JOM)"
         ],
         "Finance": [
             "Journal of Finance (JF)",
             "Review of Financial Studies (RFS)",
             "Journal of Financial Economics (JFE)",
-        ],
-        "Accounting": [
-            "Journal of Accounting Research (JAR)",
-            "Journal of Accounting and Economics (JAE)",
-            "The Accounting Review (AR)"
+            "Journal of Financial and Quantitative Analysis (JFQA)",
+            "Review of Finance (RF)"
         ],
         "Economics": [
             "American Economic Review (AER)",
-            "Quarterly Journal of Economics (QJE)",
             "Journal of Political Economy (JPE)",
+            "Quarterly Journal of Economics (QJE)",
+            "Review of Economic Studies (RES)",
             "Journal of International Economics (JIE)",
-            "Review of Economic Studies (RES)"
+            "Econometrica",
         ],
-        "Information System": [
+        "Accounting": [
+            "The Accounting Review (AR)",
+            "Journal of Accounting and Economics (JAE)",
+            "Journal of Accounting Research (JAR)",
+            "Contemporary Accounting Research (CAR)",
+            "Review of Accounting Studies (RAS)",
+            "Accounting, Organizations and Society (AOS)",
+        ],
+        "Information Systems": [
             "Information Systems Research (ISR)",
-            "MIS Quarterly (MISQ)"
+            "MIS Quarterly (MISQ)",
+            "Journal on Computing (JC)",
+            "Journal of Management Information Systems (JMIS)"
         ],
         "Management": [
-            "Organization Science (OS)",
             "Strategic Management Journal (SMJ)",
+            "Academy of Management Journal (AMJ)",
+            "Academy of Management Review (AMR)",
             "Administrative Science Quarterly (ASQ)",
-            "Academy of Management Journal (AMJ)"
+            "Journal of Management (JM)",
+            "Journal of Management Studies (JMS)",
+             "Research Policy (RP)"
         ],
+        "Organizational Behaviour": [
+            "Organization Science (OS)",
+            "Organization Studies (OS)",
+            "Organizational Behavior and Human Decision Processes (OBHDP)"
+        ],
+        "Marketing": [
+            "Marketing Science (MS)",
+            "Journal of Consumer Research (JCR)",
+            "Journal of Marketing (JM)",
+            "Journal of Marketing Research (JMR)",
+            "Journal of Consumer Psychology (JCP)",
+            "Journal of the Academy of Marketing Science (JAMS)"
+            
+        ],
+        "Human Resources": [
+            "Human Relations (HR)",
+            "Human Resource Management (HRM)"
+        ],
+        "Entrepreneurship": [
+            "Entrepreneurship Theory and Practice (ETP)",
+            "Journal of Business Venturing (JBV)",
+            "Strategic Entrepreneurship Journal (SEJ)"
+        ],
+        "Others": [
+            "Journal of International Business Studies (JIBS)",
+            "Journal of Business Ethics (JBE)"
+        ],
+        
     }
     
     # 全选/清空按钮
-    col1, col2 = st.sidebar.columns(2)
-    select_all = col1.button("✅ Select All", key="select_all")
-    clear_all = col2.button("❌ Clear All", key="clear_all")
-    
+    col1, col2, col3, col4 = st.sidebar.columns(4)
+    select_all = col1.button(" Select All", key="select_all")
+    clear_all = col2.button(" Clear All", key="clear_all")
+    select_utd24 = col3.button("🏆 UTD 24", key="select_utd24")
+    select_ft50 = col4.button("⭐ FT50", key="select_ft50")
+
+    # 添加一个小提示
+    # st.sidebar.caption("💡 Tip: Click multiple category buttons to combine selections")
+
+    col5, col6, col7, col8 = st.sidebar.columns(4)
+    om_add = col5.button("+ OM", key="om_add")
+    finance_add = col6.button("+ Finance", key="finance_add")
+    econ_add = col7.button("+ Econ", key="econ_add")
+    acc_add = col8.button("+ Acc", key="acc_add")
+
     # 初始化会话状态
     if 'selected_journals' not in st.session_state:
         st.session_state.selected_journals = []
-    
+
     # 处理全选/清空按钮
     if select_all:
         st.session_state.selected_journals = [j for group in journal_groups.values() for j in group if j in JOURNAL_CONFIGS]
-    
+
     if clear_all:
         st.session_state.selected_journals = []
+
+    if select_utd24:
+        st.session_state.selected_journals = list(set(st.session_state.selected_journals + [j for j in UTD_24_JOURNALS if j in JOURNAL_CONFIGS]))
+        
+    if select_ft50:
+        st.session_state.selected_journals = list(set(st.session_state.selected_journals + [j for j in FT50_JOURNALS if j in JOURNAL_CONFIGS]))
+
+    # 处理分类累加按钮 - 使用集合操作避免重复
+    if om_add:
+        om_journals = [j for j in journal_groups["Operations Management"] if j in JOURNAL_CONFIGS]
+        st.session_state.selected_journals = list(set(st.session_state.selected_journals + om_journals))
+
+    if finance_add:
+        finance_journals = [j for j in journal_groups["Finance"] if j in JOURNAL_CONFIGS]
+        st.session_state.selected_journals = list(set(st.session_state.selected_journals + finance_journals))
+
+    if econ_add:
+        econ_journals = [j for j in journal_groups["Economics"] if j in JOURNAL_CONFIGS]
+        st.session_state.selected_journals = list(set(st.session_state.selected_journals + econ_journals))
+
+    if acc_add:
+        acc_journals = [j for j in journal_groups["Accounting"] if j in JOURNAL_CONFIGS]
+        st.session_state.selected_journals = list(set(st.session_state.selected_journals + acc_journals))
     
     # 期刊复选框
     selected_journals = []
