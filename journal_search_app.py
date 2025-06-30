@@ -1445,7 +1445,7 @@ def main():
     # 全选/清空按钮
     col1, col2, col3, col4 = st.sidebar.columns(4)
     select_all = col1.button("Pick All", key="select_all")
-    clear_all = col2.button("Clear All", key="clear_all")
+    clear_all = col2.button("Clear", key="clear_all")
     select_utd24 = col3.button("UTD24", key="select_utd24")
     select_ft50 = col4.button("FT50", key="select_ft50")
 
