@@ -1446,8 +1446,8 @@ def main():
     col1, col2, col3, col4 = st.sidebar.columns(4)
     select_all = col1.button(" Select All", key="select_all")
     clear_all = col2.button(" Clear All", key="clear_all")
-    select_utd24 = col3.button("🏆 UTD 24", key="select_utd24")
-    select_ft50 = col4.button("⭐ FT50", key="select_ft50")
+    select_utd24 = col3.button("UTD24", key="select_utd24")
+    select_ft50 = col4.button("FT50", key="select_ft50")
 
     # 添加一个小提示
     # st.sidebar.caption("💡 Tip: Click multiple category buttons to combine selections")
