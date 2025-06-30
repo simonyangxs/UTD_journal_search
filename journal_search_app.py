@@ -1444,8 +1444,8 @@ def main():
     
     # 全选/清空按钮
     col1, col2, col3, col4 = st.sidebar.columns(4)
-    select_all = col1.button(" Select All", key="select_all")
-    clear_all = col2.button(" Clear All", key="clear_all")
+    select_all = col1.button("Select All", key="select_all")
+    clear_all = col2.button("Clear All", key="clear_all")
     select_utd24 = col3.button("UTD24", key="select_utd24")
     select_ft50 = col4.button("FT50", key="select_ft50")
 
@@ -1453,10 +1453,10 @@ def main():
     # st.sidebar.caption("💡 Tip: Click multiple category buttons to combine selections")
 
     col5, col6, col7, col8 = st.sidebar.columns(4)
-    om_add = col5.button("+ OM", key="om_add")
-    finance_add = col6.button("+ Finance", key="finance_add")
-    econ_add = col7.button("+ Econ", key="econ_add")
-    acc_add = col8.button("+ Acc", key="acc_add")
+    om_add = col5.button("OM", key="om_add")
+    finance_add = col6.button("Finance", key="finance_add")
+    econ_add = col7.button("Economics", key="econ_add")
+    acc_add = col8.button("Accounting", key="acc_add")
 
     # 初始化会话状态
     if 'selected_journals' not in st.session_state:
