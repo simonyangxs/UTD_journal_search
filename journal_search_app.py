@@ -13,6 +13,34 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# 添加CSS样式固定侧边栏宽度
+st.markdown("""
+<style>
+    .css-1d391kg {
+        width: 420px !important;
+        min-width: 420px !important;
+        max-width: 420px !important;
+    }
+    
+    .css-1lcbmhc {
+        width: 420px !important;
+        min-width: 420px !important;
+        max-width: 420px !important;
+    }
+    
+    section[data-testid="stSidebar"] {
+        width: 420px !important;
+        min-width: 420px !important;
+        max-width: 420px !important;
+    }
+    
+    section[data-testid="stSidebar"] > div {
+        width: 420px !important;
+        min-width: 420px !important;
+        max-width: 420px !important;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 UTD_24_JOURNALS = [
     # OM
@@ -1470,27 +1498,27 @@ def main():
         st.session_state.selected_journals = []
 
     if select_utd24:
-        st.session_state.selected_journals = list(set(st.session_state.selected_journals + [j for j in UTD_24_JOURNALS if j in JOURNAL_CONFIGS]))
+        st.session_state.selected_journals = list(set([j for j in UTD_24_JOURNALS if j in JOURNAL_CONFIGS]))
         
     if select_ft50:
-        st.session_state.selected_journals = list(set(st.session_state.selected_journals + [j for j in FT50_JOURNALS if j in JOURNAL_CONFIGS]))
+        st.session_state.selected_journals = list(set([j for j in FT50_JOURNALS if j in JOURNAL_CONFIGS]))
 
     # 处理分类累加按钮 - 使用集合操作避免重复
     if om_add:
         om_journals = [j for j in journal_groups["Operations Management"] if j in JOURNAL_CONFIGS]
-        st.session_state.selected_journals = list(set(st.session_state.selected_journals + om_journals))
+        st.session_state.selected_journals = list(set( om_journals))
 
     if finance_add:
         finance_journals = [j for j in journal_groups["Finance"] if j in JOURNAL_CONFIGS]
-        st.session_state.selected_journals = list(set(st.session_state.selected_journals + finance_journals))
+        st.session_state.selected_journals = list(set( finance_journals))
 
     if econ_add:
         econ_journals = [j for j in journal_groups["Economics"] if j in JOURNAL_CONFIGS]
-        st.session_state.selected_journals = list(set(st.session_state.selected_journals + econ_journals))
+        st.session_state.selected_journals = list(set( econ_journals))
 
     if acc_add:
         acc_journals = [j for j in journal_groups["Accounting"] if j in JOURNAL_CONFIGS]
-        st.session_state.selected_journals = list(set(st.session_state.selected_journals + acc_journals))
+        st.session_state.selected_journals = list(set( acc_journals))
     
     # 期刊复选框
     selected_journals = []
