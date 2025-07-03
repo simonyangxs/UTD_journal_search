@@ -89,7 +89,6 @@ FT50_JOURNALS = [
     "Journal of Political Economy (JPE)", 
     "Quarterly Journal of Economics (QJE)",
     "Review of Economic Studies (RES)",
-    "Journal of International Economics (JIE)",
     
     # Finance
     "Journal of Finance (JF)",
