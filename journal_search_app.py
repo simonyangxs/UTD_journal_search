@@ -7,7 +7,7 @@ import time
 # streamlit run journal_search_app.py
 # 设置页面配置
 st.set_page_config(
-    page_title="testing",
+    page_title="Business Journal Search Tool",
     page_icon="📚",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -963,10 +963,10 @@ JOURNAL_CONFIGS = {
 def update_journal_selection(journal):
     """更新期刊选择状态的回调函数"""
     checkbox_key = f"checkbox_{journal}"
-    if st.session_state.get(checkbox_key, False):
+    if st.session_state.get(checkbox_key, False):  # 如果复选框被选中
         if journal not in st.session_state.selected_journals:
             st.session_state.selected_journals.append(journal)
-    else:
+    else:  # 如果复选框未被选中
         if journal in st.session_state.selected_journals:
             st.session_state.selected_journals.remove(journal)
 
@@ -1557,40 +1557,32 @@ def main():
     # 处理全选/清空按钮
     if select_all:
         st.session_state.selected_journals = [j for group in journal_groups.values() for j in group if j in JOURNAL_CONFIGS]
-        st.rerun()
 
     if clear_all:
         st.session_state.selected_journals = []
-        st.rerun()
 
     if select_utd24:
         st.session_state.selected_journals = list(set([j for j in UTD_24_JOURNALS if j in JOURNAL_CONFIGS]))
-        st.rerun()
 
     if select_ft50:
         st.session_state.selected_journals = list(set([j for j in FT50_JOURNALS if j in JOURNAL_CONFIGS]))
-        st.rerun()
 
     # 处理分类累加按钮 - 使用集合操作避免重复
     if om_add:
         om_journals = [j for j in journal_groups["Operations Management"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( om_journals))
-        st.rerun()
 
     if finance_add:
         finance_journals = [j for j in journal_groups["Finance"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( finance_journals))
-        st.rerun()
 
     if econ_add:
         econ_journals = [j for j in journal_groups["Economics"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( econ_journals))
-        st.rerun()
 
     if acc_add:
         acc_journals = [j for j in journal_groups["Accounting"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( acc_journals))
-        st.rerun()
 
 
     # 期刊复选框
