@@ -1593,9 +1593,7 @@ def main():
                 st.sidebar.checkbox(
                     journal,
                     value=journal in st.session_state.selected_journals,
-                    key=f"{journal}",
-                    on_change=update_journal_selection,
-                    args=(journal,)
+                    key=f"{journal}"
                 )
 
     # 从 session_state 获取最终的选中列表
