@@ -1547,6 +1547,7 @@ def main():
     # 处理全选/清空按钮
     if select_all:
         st.session_state.selected_journals = [j for group in journal_groups.values() for j in group if j in JOURNAL_CONFIGS]
+        st.rerun()
 
     if clear_all:
         st.session_state.selected_journals = []
