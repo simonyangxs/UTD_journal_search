@@ -1559,6 +1559,8 @@ def main():
         st.session_state.selected_journals = [j for group in journal_groups.values() for j in group if j in JOURNAL_CONFIGS]
 
     if clear_all:
+        for journal in UTD_24_JOURNALS:
+            st.session_state[f"cb_{journal}"] = False
         st.session_state.selected_journals = []
 
     if select_utd24:
@@ -1585,6 +1587,7 @@ def main():
         st.session_state.selected_journals = list(set( acc_journals))
 
 
+    st.sidebar.write(st.session_state.selected_journals)
     # 期刊复选框
     for group_name, journals in journal_groups.items():
         st.sidebar.subheader(group_name)
@@ -1593,16 +1596,27 @@ def main():
                 
                 # st.sidebar.write(journal)
                 # st.sidebar.write(journal in st.session_state.selected_journals)
+                if journal in st.session_state.selected_journals:
+                    value = True
+                else:
+                    value = False
+                
+
+                st.sidebar.write(value)
                 is_checked = st.sidebar.checkbox(
                     journal,
-                    value=(journal in st.session_state.selected_journals),
+                    value=value,
                     key=f"cb_{journal}"  # 改变 key 避免状态冲突
                 )
+                # st.rerun()
                 
                 # 根据 checkbox 当前状态同步更新 session_state
                 if is_checked:
                     if journal not in st.session_state.selected_journals:
                         st.session_state.selected_journals.append(journal)
+                else:
+                    if journal in st.session_state.selected_journals:
+                        st.session_state.selected_journals.remove(journal)
                 st.sidebar.write(is_checked)
 
     # 从 session_state 获取最终的选中列表
@@ -1611,7 +1625,7 @@ def main():
     
     # 主区域 - 搜索设置
     st.header("🔍 Search Settings")
-    
+    st.write(st.session_state.selected_journals)
     # 第一行：搜索关键词和搜索字段
     col1, col2 = st.columns([3, 1])
     with col1:
