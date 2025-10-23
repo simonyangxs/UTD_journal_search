@@ -1626,7 +1626,7 @@ def main():
     
     # 主区域 - 搜索设置
     st.header("🔍 Search Settings")
-    st.write(st.session_state.selected_journals)
+    # st.write(st.session_state.selected_journals)
     # 第一行：搜索关键词和搜索字段
     col1, col2 = st.columns([3, 1])
     with col1:
