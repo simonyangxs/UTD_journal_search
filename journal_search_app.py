@@ -1600,10 +1600,9 @@ def main():
                 )
                 
                 # 根据 checkbox 当前状态同步更新 session_state
-                if is_checked and journal not in st.session_state.selected_journals:
-                    st.session_state.selected_journals.append(journal)
-                elif not is_checked and journal in st.session_state.selected_journals:
-                    st.session_state.selected_journals.remove(journal)
+                if is_checked:
+                    if journal not in st.session_state.selected_journals:
+                        st.session_state.selected_journals.append(journal)
                 st.sidebar.write(is_checked)
 
     # 从 session_state 获取最终的选中列表
