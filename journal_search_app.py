@@ -89,6 +89,7 @@ FT50_JOURNALS = [
     "Journal of Political Economy (JPE)", 
     "Quarterly Journal of Economics (QJE)",
     "Review of Economic Studies (RES)",
+    "Journal of International Economics (JIE)",
     
     # Finance
     "Journal of Finance (JF)",
@@ -941,6 +942,21 @@ JOURNAL_CONFIGS = {
         },
         "search_fields": ["Title", "AllField", "Abstract"],
         "supports_date": True
+    },
+    
+    # NBER Working Papers
+    "NBER": {
+        "base_url": "https://www.nber.org/search",
+        "params": {
+            "q": "",
+            "startDate": "",
+            "endDate": "",
+            "facet": "contentType:working_paper",
+            "page": "1",
+            "perPage": "50"
+        },
+        "search_fields": ["AllField"],
+        "supports_date": True
     }
 }
 
@@ -1323,6 +1339,31 @@ def generate_combined_search_url(journals, search_term, search_field, start_year
         if start_year and end_year:
             params['AfterYear'] = start_year
             params['BeforeYear'] = end_year
+    elif template_journal == "NBER":
+        # NBER Working Papers - 支持日期筛选
+        params['q'] = search_term
+        
+        # NBER使用YYYY-MM-DD格式的日期
+        if start_year and end_year:
+            # 构建开始日期
+            start_date = f"{start_year}-{start_month:02d}-01" if start_month else f"{start_year}-01-01"
+            
+            # 构建结束日期
+            if end_month:
+                # 计算月份的最后一天
+                if end_month in [1, 3, 5, 7, 8, 10, 12]:
+                    last_day = 31
+                elif end_month in [4, 6, 9, 11]:
+                    last_day = 30
+                else:  # 2月
+                    # 简单处理闰年，2月按28天算
+                    last_day = 28
+                end_date = f"{end_year}-{end_month:02d}-{last_day:02d}"
+            else:
+                end_date = f"{end_year}-12-31"
+                
+            params['startDate'] = start_date
+            params['endDate'] = end_date
 
     # 构建最终URL
     url_params = []
@@ -1362,6 +1403,19 @@ def generate_combined_search_url(journals, search_term, search_field, start_year
                 elif key == 'rg_PublicationDate':
                     # 日期参数保留空格
                     encoded_value = urllib.parse.quote(str(value), safe=' :T-')
+                    url_params.append(f"{key}={encoded_value}")
+                else:
+                    url_params.append(f"{key}={urllib.parse.quote(str(value))}")
+    elif 'nber.org' in website:
+        # NBER Working Papers 特殊编码
+        for key, value in params.items():
+            if isinstance(value, list):
+                for item in value:
+                    url_params.append(f"{key}={urllib.parse.quote(str(item))}")
+            elif value:
+                if key == 'facet':
+                    # facet参数需要特殊编码 contentType:working_paper -> contentType%3Aworking_paper
+                    encoded_value = str(value).replace(':', '%3A')
                     url_params.append(f"{key}={encoded_value}")
                 else:
                     url_params.append(f"{key}={urllib.parse.quote(str(value))}")
@@ -1415,6 +1469,7 @@ def main():
             "Review of Economic Studies (RES)",
             "Journal of International Economics (JIE)",
             "Econometrica",
+            "NBER"
         ],
         "Accounting": [
             "The Accounting Review (AR)",
