@@ -1593,13 +1593,14 @@ def main():
                 
                 st.sidebar.write(journal)
                 st.sidebar.write(journal in st.session_state.selected_journals)
-                st.sidebar.checkbox(
+                t = st.sidebar.checkbox(
                     journal,
                     value=journal in st.session_state.selected_journals,
                     key=f"{journal}",
                     on_change=update_journal_selection,
                     args=(journal,)
                 )
+                st.sidebar.write(t)
 
     # 从 session_state 获取最终的选中列表
     selected_journals = st.session_state.selected_journals
