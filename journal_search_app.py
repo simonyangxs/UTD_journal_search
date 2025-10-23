@@ -1551,45 +1551,60 @@ def main():
 
     if clear_all:
         st.session_state.selected_journals = []
+        st.rerun()
 
     if select_utd24:
         st.session_state.selected_journals = list(set([j for j in UTD_24_JOURNALS if j in JOURNAL_CONFIGS]))
-        
+        st.rerun()
+
     if select_ft50:
         st.session_state.selected_journals = list(set([j for j in FT50_JOURNALS if j in JOURNAL_CONFIGS]))
+        st.rerun()
 
     # 处理分类累加按钮 - 使用集合操作避免重复
     if om_add:
         om_journals = [j for j in journal_groups["Operations Management"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( om_journals))
+        st.rerun()
 
     if finance_add:
         finance_journals = [j for j in journal_groups["Finance"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( finance_journals))
+        st.rerun()
 
     if econ_add:
         econ_journals = [j for j in journal_groups["Economics"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( econ_journals))
+        st.rerun()
 
     if acc_add:
         acc_journals = [j for j in journal_groups["Accounting"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( acc_journals))
-    
+        st.rerun()
+
+
     # 期刊复选框
     selected_journals = []
     for group_name, journals in journal_groups.items():
         st.sidebar.subheader(group_name)
         for journal in journals:
             if journal in JOURNAL_CONFIGS:
-                if st.sidebar.checkbox(
+                # 直接从 session_state 读取状态,复选框变化时自动更新
+                is_checked = st.sidebar.checkbox(
                     journal,
                     value=journal in st.session_state.selected_journals,
                     key=f"checkbox_{journal}"
-                ):
-                    selected_journals.append(journal)
-    
-    # 更新会话状态
-    st.session_state.selected_journals = selected_journals
+                )
+                
+                # 根据复选框状态更新 session_state
+                if is_checked and journal not in st.session_state.selected_journals:
+                    st.session_state.selected_journals.append(journal)
+                elif not is_checked and journal in st.session_state.selected_journals:
+                    st.session_state.selected_journals.remove(journal)
+
+    # 从 session_state 获取最终的选中列表
+    selected_journals = st.session_state.selected_journals
+
     
     # 主区域 - 搜索设置
     st.header("🔍 Search Settings")
