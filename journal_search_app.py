@@ -1591,16 +1591,16 @@ def main():
         for journal in journals:
              if journal in JOURNAL_CONFIGS:
                 
-                st.sidebar.write(journal)
-                st.sidebar.write(journal in st.session_state.selected_journals)
+                # st.sidebar.write(journal)
+                # st.sidebar.write(journal in st.session_state.selected_journals)
                 t = st.sidebar.checkbox(
                     journal,
-                    value=journal in st.session_state.selected_journals,
+                    value=(journal in st.session_state.selected_journals),
                     key=f"{journal}",
                     on_change=update_journal_selection,
                     args=(journal,)
                 )
-                st.sidebar.write(t)
+                # st.sidebar.write(t)
 
     # 从 session_state 获取最终的选中列表
     selected_journals = st.session_state.selected_journals
