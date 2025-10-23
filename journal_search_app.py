@@ -1593,14 +1593,18 @@ def main():
                 
                 # st.sidebar.write(journal)
                 # st.sidebar.write(journal in st.session_state.selected_journals)
-                t = st.sidebar.checkbox(
+                is_checked = st.sidebar.checkbox(
                     journal,
                     value=(journal in st.session_state.selected_journals),
-                    key=f"{journal}",
-                    on_change=update_journal_selection,
-                    args=(journal,)
+                    key=f"cb_{journal}"  # 改变 key 避免状态冲突
                 )
-                st.sidebar.write(t)
+                
+                # 根据 checkbox 当前状态同步更新 session_state
+                if is_checked and journal not in st.session_state.selected_journals:
+                    st.session_state.selected_journals.append(journal)
+                elif not is_checked and journal in st.session_state.selected_journals:
+                    st.session_state.selected_journals.remove(journal)
+                st.sidebar.write(is_checked)
 
     # 从 session_state 获取最终的选中列表
     selected_journals = st.session_state.selected_journals
