@@ -960,6 +960,16 @@ JOURNAL_CONFIGS = {
     }
 }
 
+def update_journal_selection(journal):
+    """更新期刊选择状态的回调函数"""
+    checkbox_key = f"checkbox_{journal}"
+    if st.session_state.get(checkbox_key, False):
+        if journal not in st.session_state.selected_journals:
+            st.session_state.selected_journals.append(journal)
+    else:
+        if journal in st.session_state.selected_journals:
+            st.session_state.selected_journals.remove(journal)
+
 def group_journals_by_website(selected_journals):
     """按网站对期刊进行分组"""
     website_groups = {}
@@ -1584,23 +1594,17 @@ def main():
 
 
     # 期刊复选框
-    selected_journals = []
     for group_name, journals in journal_groups.items():
         st.sidebar.subheader(group_name)
         for journal in journals:
             if journal in JOURNAL_CONFIGS:
-                # 直接从 session_state 读取状态,复选框变化时自动更新
-                is_checked = st.sidebar.checkbox(
+                st.sidebar.checkbox(
                     journal,
                     value=journal in st.session_state.selected_journals,
-                    key=f"checkbox_{journal}"
+                    key=f"checkbox_{journal}",
+                    on_change=update_journal_selection,
+                    args=(journal,)
                 )
-                
-                # 根据复选框状态更新 session_state
-                if is_checked and journal not in st.session_state.selected_journals:
-                    st.session_state.selected_journals.append(journal)
-                elif not is_checked and journal in st.session_state.selected_journals:
-                    st.session_state.selected_journals.remove(journal)
 
     # 从 session_state 获取最终的选中列表
     selected_journals = st.session_state.selected_journals
