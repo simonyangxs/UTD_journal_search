@@ -1626,7 +1626,7 @@ def main():
                     key=f"cb_{journal}"  # 改变 key 避免状态冲突
                 )
                 # st.rerun()
-                st.sidebar.write(is_checked)  
+                # st.sidebar.write(is_checked)  
                 
                 # 根据 checkbox 当前状态同步更新 session_state
                 if is_checked:
