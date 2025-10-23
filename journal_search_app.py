@@ -1598,10 +1598,10 @@ def main():
                 # st.sidebar.write(journal in st.session_state.selected_journals)
                 if journal in st.session_state.selected_journals:
                     value = True
-                    st.session_state[f"cb_{journal}"] = True
+                    # st.session_state[f"cb_{journal}"] = True
                 else:
                     value = False
-                    st.session_state[f"cb_{journal}"] = False
+                    # st.session_state[f"cb_{journal}"] = False
 
                 # st.sidebar.write(value)
                 is_checked = st.sidebar.checkbox(
@@ -1610,19 +1610,20 @@ def main():
                     key=f"cb_{journal}"  # 改变 key 避免状态冲突
                 )
                 # st.rerun()
+                st.sidebar.write(is_checked)  # 添加空行分隔
                 
                 # 根据 checkbox 当前状态同步更新 session_state
                 if is_checked:
                     
                     if journal not in st.session_state.selected_journals:
                         st.session_state.selected_journals.append(journal)
-                    if f"cb_{journal}" in st.session_state:
-                        st.session_state[f"cb_{journal}"] = True
+                    # if f"cb_{journal}" in st.session_state:
+                    #     st.session_state[f"cb_{journal}"] = True
                 else:
                     if journal in st.session_state.selected_journals:
                         st.session_state.selected_journals.remove(journal)
-                    if f"cb_{journal}" in st.session_state:
-                        st.session_state[f"cb_{journal}"] = False
+                    # if f"cb_{journal}" in st.session_state:
+                    #     st.session_state[f"cb_{journal}"] = False
                 # st.sidebar.write(is_checked)
 
     # 从 session_state 获取最终的选中列表
