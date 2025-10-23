@@ -1590,6 +1590,9 @@ def main():
         st.sidebar.subheader(group_name)
         for journal in journals:
              if journal in JOURNAL_CONFIGS:
+                
+                st.sidebar.write(journal)
+                st.sidebar.write(journal in st.session_state.selected_journals)
                 st.sidebar.checkbox(
                     journal,
                     value=journal in st.session_state.selected_journals,
