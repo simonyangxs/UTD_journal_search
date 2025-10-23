@@ -1598,9 +1598,10 @@ def main():
                 # st.sidebar.write(journal in st.session_state.selected_journals)
                 if journal in st.session_state.selected_journals:
                     value = True
+                    st.session_state[f"cb_{journal}"] = True
                 else:
                     value = False
-                
+                    st.session_state[f"cb_{journal}"] = False
 
                 st.sidebar.write(value)
                 is_checked = st.sidebar.checkbox(
