@@ -1554,37 +1554,53 @@ def main():
     if 'selected_journals' not in st.session_state:
         st.session_state.selected_journals = []
 
+    def sync_checkbox_state():
+        for key in list(st.session_state.keys()):
+            if key.startswith("cb_"):
+                journal = key[3:]
+                st.session_state[key] = journal in st.session_state.selected_journals
+
+
     # 处理全选/清空按钮
     if select_all:
         st.session_state.selected_journals = [j for group in journal_groups.values() for j in group if j in JOURNAL_CONFIGS]
+        sync_checkbox_state()
+
 
     if clear_all:
-        for journal in UTD_24_JOURNALS:
-            st.session_state[f"cb_{journal}"] = False
+        # for journal in UTD_24_JOURNALS:
+        #     st.session_state[f"cb_{journal}"] = False
         st.session_state.selected_journals = []
+        sync_checkbox_state()
 
     if select_utd24:
         st.session_state.selected_journals = list(set([j for j in UTD_24_JOURNALS if j in JOURNAL_CONFIGS]))
+        sync_checkbox_state()
 
     if select_ft50:
         st.session_state.selected_journals = list(set([j for j in FT50_JOURNALS if j in JOURNAL_CONFIGS]))
+        sync_checkbox_state()
 
     # 处理分类累加按钮 - 使用集合操作避免重复
     if om_add:
         om_journals = [j for j in journal_groups["Operations Management"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( om_journals))
+        sync_checkbox_state()
 
     if finance_add:
         finance_journals = [j for j in journal_groups["Finance"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( finance_journals))
+        sync_checkbox_state()
 
     if econ_add:
         econ_journals = [j for j in journal_groups["Economics"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( econ_journals))
+        sync_checkbox_state()
 
     if acc_add:
         acc_journals = [j for j in journal_groups["Accounting"] if j in JOURNAL_CONFIGS]
         st.session_state.selected_journals = list(set( acc_journals))
+        sync_checkbox_state()
 
 
     # st.sidebar.write(st.session_state.selected_journals)
@@ -1610,7 +1626,7 @@ def main():
                     key=f"cb_{journal}"  # 改变 key 避免状态冲突
                 )
                 # st.rerun()
-                st.sidebar.write(is_checked)  # 添加空行分隔
+                st.sidebar.write(is_checked)  
                 
                 # 根据 checkbox 当前状态同步更新 session_state
                 if is_checked:
