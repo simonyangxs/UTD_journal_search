@@ -1587,7 +1587,7 @@ def main():
         st.session_state.selected_journals = list(set( acc_journals))
 
 
-    st.sidebar.write(st.session_state.selected_journals)
+    # st.sidebar.write(st.session_state.selected_journals)
     # 期刊复选框
     for group_name, journals in journal_groups.items():
         st.sidebar.subheader(group_name)
@@ -1603,7 +1603,7 @@ def main():
                     value = False
                     st.session_state[f"cb_{journal}"] = False
 
-                st.sidebar.write(value)
+                # st.sidebar.write(value)
                 is_checked = st.sidebar.checkbox(
                     journal,
                     value=value,
@@ -1618,7 +1618,7 @@ def main():
                 else:
                     if journal in st.session_state.selected_journals:
                         st.session_state.selected_journals.remove(journal)
-                st.sidebar.write(is_checked)
+                # st.sidebar.write(is_checked)
 
     # 从 session_state 获取最终的选中列表
     selected_journals = st.session_state.selected_journals
