@@ -1600,7 +1600,7 @@ def main():
                     on_change=update_journal_selection,
                     args=(journal,)
                 )
-                # st.sidebar.write(t)
+                st.sidebar.write(t)
 
     # 从 session_state 获取最终的选中列表
     selected_journals = st.session_state.selected_journals
